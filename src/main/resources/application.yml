@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: insulinet-api
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:insulinet}
+    username: ${DB_USER:insulinet}
+    password: ${DB_PASSWORD:insulinet}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_absent
+    deserialization:
+      fail-on-unknown-properties: false
+
+server:
+  port: ${PORT:8000}
+
+app:
+  timezone: ${APP_TIMEZONE:America/Fortaleza}
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    access-token-expire-minutes: ${ACCESS_TOKEN_EXPIRE_MINUTES:1440}
+  password-reset:
+    expire-minutes: ${PASSWORD_RESET_EXPIRE_MINUTES:30}
+  email:
+    resend-api-key: ${RESEND_API_KEY}
+    from: ${EMAIL_FROM:Insulinet <onboarding@resend.dev>}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  level:
+    com.insulinet: INFO

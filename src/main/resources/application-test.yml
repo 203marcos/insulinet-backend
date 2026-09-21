@@ -1,0 +1,9 @@
+app:
+  jwt:
+    secret-key: test-secret-key-with-at-least-32-characters
+  email:
+    resend-api-key: test-resend-key
+
+logging:
+  level:
+    com.insulinet: DEBUG
