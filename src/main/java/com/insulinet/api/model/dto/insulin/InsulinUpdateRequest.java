@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 
 public record InsulinUpdateRequest(
         @NotBlank @Size(min = 1, max = 100) String name,
-        @DecimalMin(value = "0.0", inclusive = false) BigDecimal concentrationUnitsPerMl,
-        @DecimalMin(value = "0.0", inclusive = false) BigDecimal containerVolumeMl,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal concentrationUnitsPerMl,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal containerVolumeMl,
         @NotNull Boolean active
 ) {
 }

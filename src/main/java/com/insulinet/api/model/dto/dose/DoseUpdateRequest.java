@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record DoseUpdateRequest(
-        @DecimalMin(value = "0.0", inclusive = false) BigDecimal units,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal units,
         @NotNull LocalDate occurredDate,
         LocalTime occurredTime,
         @Size(max = 500) String notes
