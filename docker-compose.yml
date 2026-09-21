@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-insulinet}
+      POSTGRES_USER: ${DB_USER:-insulinet}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-insulinet}
+    volumes:
+      - insulinet_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-insulinet} -d ${DB_NAME:-insulinet}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - insulinet_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-insulinet}
+      DB_USER: ${DB_USER:-insulinet}
+      DB_PASSWORD: ${DB_PASSWORD:-insulinet}
+      APP_TIMEZONE: ${APP_TIMEZONE:-America/Fortaleza}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-1440}
+      PASSWORD_RESET_EXPIRE_MINUTES: ${PASSWORD_RESET_EXPIRE_MINUTES:-30}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      EMAIL_FROM: ${EMAIL_FROM:-Insulinet <onboarding@resend.dev>}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+      PORT: 8000
+    ports:
+      - "${PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - insulinet_network
+
+networks:
+  insulinet_network:
+    driver: bridge
+
+volumes:
+  insulinet_db_data:
