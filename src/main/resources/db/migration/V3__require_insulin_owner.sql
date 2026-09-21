@@ -1,0 +1,1 @@
+ALTER TABLE insulin ALTER COLUMN user_id SET NOT NULL;
