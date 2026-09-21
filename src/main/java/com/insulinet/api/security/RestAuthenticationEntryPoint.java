@@ -28,6 +28,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException
     ) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setHeader("WWW-Authenticate", "Bearer");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(
                 objectMapper.writeValueAsString(ErrorResponse.of("Token invalido ou expirado.")));

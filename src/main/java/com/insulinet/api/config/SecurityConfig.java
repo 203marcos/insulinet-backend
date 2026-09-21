@@ -66,9 +66,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // matches() decodifica os parametros (memoria/iteracoes/paralelismo)
-        // a partir do proprio hash PHC recebido, entao continua validando
-        // corretamente os hashes Argon2id ja gerados pelo pwdlib no Python.
+        // Argon2id with Spring Security's recommended parameters
+        // (salt 16 bytes, hash 32 bytes, parallelism 1, memory 16MB, 2 iterations).
         return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 }

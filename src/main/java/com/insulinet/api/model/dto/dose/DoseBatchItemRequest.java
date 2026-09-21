@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 public record DoseBatchItemRequest(
         @NotNull LocalDate occurredDate,
-        @DecimalMin(value = "0.0", inclusive = false) BigDecimal units,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal units,
         LocalTime occurredTime,
         @Size(max = 500) String notes
 ) {
